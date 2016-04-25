@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Tic Tac Toe</string>
+    <string name="play">Play</string>
+    <string name="show_history">Show History</string>
+    <string name="game_mode">Game Mode</string>
+    <string name="grid_size">Grid Size</string>
+    <string name="history">History</string>
+
+    <string name="player_vs_player">Player vs Player</string>
+    <string name="player_vs_android">Player vs Android</string>
+    <string name="start">Start</string>
+    <string name="player_turn">%s\'s turn</string>
+    <string name="player_won">%s WON</string>
+    <string name="draw">DRAW</string>
+    <string name="player_one">Player One</string>
+    <string name="player_two">Player Two</string>
+    <string name="android">Android</string>
+    <string name="ok">ok</string>
+    <string name="restart">restart</string>
+    <string name="result">Result</string>
+    <string name="history_player_vs_player">%1$s vs %2$s</string>
+
+</resources>
