@@ -89,8 +89,8 @@ public class GameFragment extends Fragment implements GameAdapter.GameAdapterLis
         recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                int min = Math.min(recyclerView.getWidth(), recyclerView.getHeight());
-                gameAdapter.setRowSize(min / rowsCount);
+                int max = Math.max(recyclerView.getWidth(), recyclerView.getHeight());
+                gameAdapter.setRowSize(max / rowsCount);
                 recyclerView.removeOnLayoutChangeListener(this);
             }
         });
