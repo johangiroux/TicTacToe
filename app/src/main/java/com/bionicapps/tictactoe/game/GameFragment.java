@@ -44,6 +44,7 @@ public class GameFragment extends Fragment implements GameAdapter.GameAdapterLis
     private int currentPlayerNumber;
     private Realm realm = Realm.getDefaultInstance();
     private Random random;
+    private boolean recreating = false;
 
     int rowsCount;
     int playCount;
@@ -57,11 +58,15 @@ public class GameFragment extends Fragment implements GameAdapter.GameAdapterLis
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable("states", states);
-        outState.putInt("playCount", playCount);
-        outState.putInt("currentPlayerNumber", currentPlayerNumber);
+        if (!recreating) {
+            outState.putSerializable("states", states);
+            outState.putInt("playCount", playCount);
+            outState.putInt("currentPlayerNumber", currentPlayerNumber);
+        }
         super.onSaveInstanceState(outState);
     }
+
+
 
     @Nullable
     @Override
@@ -83,16 +88,17 @@ public class GameFragment extends Fragment implements GameAdapter.GameAdapterLis
         gridLayoutManager = new GridLayoutManager(getActivity(), rowsCount);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null && savedInstanceState.getSerializable("states") != null) {
             states = (State[][]) savedInstanceState.getSerializable("states");
             playCount = savedInstanceState.getInt("playCount");
             currentPlayerNumber = savedInstanceState.getInt("currentPlayerNumber");
+            gameAdapter = new GameAdapter(states, rowsCount, this);
             displayNextPlayer();
         } else {
             states = new State[rowsCount][rowsCount];
+            gameAdapter = new GameAdapter(states, rowsCount, this);
         }
 
-        gameAdapter = new GameAdapter(states, rowsCount, this);
 
         return view;
     }
@@ -165,6 +171,7 @@ public class GameFragment extends Fragment implements GameAdapter.GameAdapterLis
                         realm.copyToRealm(newGame);
                         realm.commitTransaction();
 
+                        recreating = true;
                         dialog.dismiss();
                         getActivity().recreate();
                     }
