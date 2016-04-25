@@ -55,6 +55,14 @@ public class GameFragment extends Fragment implements GameAdapter.GameAdapterLis
         O
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable("states", states);
+        outState.putInt("playCount", playCount);
+        outState.putInt("currentPlayerNumber", currentPlayerNumber);
+        super.onSaveInstanceState(outState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,7 +83,14 @@ public class GameFragment extends Fragment implements GameAdapter.GameAdapterLis
         gridLayoutManager = new GridLayoutManager(getActivity(), rowsCount);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        states = new State[rowsCount][rowsCount];
+        if (savedInstanceState != null) {
+            states = (State[][]) savedInstanceState.getSerializable("states");
+            playCount = savedInstanceState.getInt("playCount");
+            currentPlayerNumber = savedInstanceState.getInt("currentPlayerNumber");
+            displayNextPlayer();
+        } else {
+            states = new State[rowsCount][rowsCount];
+        }
 
         gameAdapter = new GameAdapter(states, rowsCount, this);
 
